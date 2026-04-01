@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웹툰 실무 마스터 과정 | SBS아카데미 컴퓨터 강남</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap');
+
+  :root {
+    --gold:       #D4A000;
+    --gold-bg:    #FFF8DC;
+    --gold-bdr:   #E8C840;
+    --accent:     #1A1A2E;
+    --blue:       #1565C0;
+    --blue-bg:    #E3F0FF;
+    --blue-bdr:   #90CAF9;
+    --green:      #1B5E20;
+    --green-bg:   #E8F5E9;
+    --green-bdr:  #A5D6A7;
+    --orange:     #BF360C;
+    --orange-bg:  #FFF3E0;
+    --orange-bdr: #FFCC80;
+    --red:        #B71C1C;
+    --purple:     #4A148C;
+    --bg:         #FFFFFF;
+    --bg2:        #F8F8F8;
+    --bg3:        #F0F0F0;
+    --border:     #DDDDDD;
+    --border2:    #CCCCCC;
+    --text:       #111111;
+    --text2:      #333333;
+    --text3:      #555555;
+    --text4:      #777777;
+    --source:     #888888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(150deg, #1A1A2E 0%, #16213E 60%, #0F3460 100%);
+    padding: 72px 24px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 300px;
+    background: radial-gradient(ellipse, rgba(212,160,0,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1.5px solid var(--gold-bdr);
+    color: var(--gold-bdr);
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 6px 20px;
+    border-radius: 24px;
+    margin-bottom: 24px;
+    font-weight: 700;
+  }
+  .hero h1 {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(34px, 6vw, 60px);
+    color: #FFFFFF;
+    line-height: 1.18;
+    margin-bottom: 18px;
+  }
+  .hero h1 em { color: #FFD700; font-style: normal; }
+  .hero-sub {
+    font-size: 17px;
+    color: #B0C4DE;
+    max-width: 640px;
+    margin: 0 auto 32px;
+    font-weight: 400;
+    line-height: 1.8;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,215,0,0.35);
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #FFD700;
+    font-weight: 900;
+    text-align: left;
+  }
+  .hero-stat span {
+    color: #9EAFC2;
+    font-weight: 400;
+    font-size: 12px;
+    display: block;
+    margin-top: 3px;
+  }
+
+  /* ── NAV ── */
+  .tab-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #FFFFFF;
+    border-bottom: 2px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+  }
+  .tab-nav a {
+    color: var(--text3);
+    text-decoration: none;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── WRAP ── */
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 68px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .section.alt { background: var(--bg2); }
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    font-weight: 900;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 3px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+  .section-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(26px, 4vw, 40px);
+    color: var(--accent);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .section-title em { color: var(--gold); font-style: normal; }
+  .section-desc {
+    color: var(--text3);
+    font-size: 16px;
+    max-width: 700px;
+    margin-bottom: 40px;
+    font-weight: 400;
+    line-height: 1.8;
+  }
+
+  /* ── STAT GRID ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-top: 4px solid var(--gold);
+    border-radius: 12px;
+    padding: 24px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .stat-card .big {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 38px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-card .label { font-size: 14px; color: var(--text2); font-weight: 500; line-height: 1.6; }
+  .stat-card .source {
+    font-size: 11px;
+    color: var(--source);
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    font-weight: 400;
+  }
+
+  /* ── CHART ── */
+  .chart-wrap {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .chart-title {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── TREND CARDS ── */
+  .trend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .trend-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 26px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .trend-card .icon { font-size: 30px; margin-bottom: 14px; }
+  .trend-card h3 { font-size: 17px; color: var(--accent); margin-bottom: 10px; font-weight: 900; }
+  .trend-card p { font-size: 15px; color: var(--text2); line-height: 1.75; }
+  .trend-card strong { color: var(--blue); font-weight: 900; }
+  .trend-card .src { font-size: 11px; color: var(--source); margin-top: 10px; display: block; }
+  .trend-card .tag {
+    display: inline-block;
+    background: var(--gold-bg);
+    color: var(--gold);
+    border: 1px solid var(--gold-bdr);
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 14px;
+    font-weight: 700;
+  }
+
+  /* ── PROCESS FLOW ── */
+  .process-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin-top: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid var(--border);
+  }
+  @media (max-width: 700px) {
+    .process-flow { grid-template-columns: 1fr 1fr; border-radius: 0; border: none; gap: 12px; }
+  }
+  .process-step {
+    background: #FFFFFF;
+    border-right: 1px solid var(--border);
+    padding: 24px 14px;
+    text-align: center;
+    position: relative;
+  }
+  .process-step:last-child {
+    border-right: none;
+    background: var(--gold-bg);
+    border-left: 3px solid var(--gold-bdr);
+  }
+  @media (max-width: 700px) {
+    .process-step { border-radius: 10px; border: 1.5px solid var(--border) !important; }
+    .process-step:last-child { border: 2px solid var(--gold-bdr) !important; }
+  }
+  .process-step .num {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    color: #FFD700;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: 15px;
+    margin: 0 auto 12px;
+  }
+  .process-step:last-child .num { background: var(--gold); color: #111; }
+  .process-step h4 { font-size: 15px; color: var(--accent); margin-bottom: 8px; font-weight: 900; }
+  .process-step p { font-size: 12px; color: var(--text3); line-height: 1.6; }
+  .process-step .badge {
+    display: inline-block;
+    background: var(--bg3);
+    color: var(--text3);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-weight: 700;
+  }
+  .process-step:last-child .badge { background: var(--gold-bdr); color: #111; border-color: var(--gold); }
+  .process-step .src-step { font-size: 10px; color: var(--source); margin-top: 6px; display: block; }
+
+  /* ── INSTRUCTOR ── */
+  .instructor-box {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-top: 4px solid var(--gold);
+    border-radius: 14px;
+    padding: 36px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .instructor-avatar { flex: 0 0 130px; text-align: center; }
+  .instructor-avatar .name { font-weight: 900; font-size: 20px; margin-top: 14px; color: var(--accent); }
+  .instructor-avatar .sub { font-size: 13px; color: var(--text4); margin-top: 4px; }
+  .instructor-info { flex: 1; min-width: 260px; }
+  .instructor-info h3 { font-size: 14px; color: var(--gold); font-weight: 900; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  .instructor-info .work-title { font-size: 21px; color: var(--accent); font-weight: 900; margin-bottom: 16px; line-height: 1.3; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .badge {
+    background: var(--gold-bg);
+    border: 1.5px solid var(--gold-bdr);
+    color: var(--gold);
+    font-size: 13px;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-weight: 900;
+  }
+  .instructor-info ul { list-style: none; padding: 0; }
+  .instructor-info ul li {
+    font-size: 15px;
+    color: var(--text2);
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+  }
+  .instructor-info ul li:last-child { border-bottom: none; }
+  .instructor-info ul li::before { content: '▸ '; color: var(--gold); font-weight: 900; }
+  .instructor-info .src-inst { font-size: 11px; color: var(--source); margin-top: 14px; }
+
+  /* ── TABLE ── */
+  .job-table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 580px; }
+  thead tr { background: var(--accent); }
+  thead th {
+    text-align: left;
+    padding: 15px 18px;
+    color: #FFD700;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-weight: 900;
+    border-bottom: none;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--bg2); }
+  tbody tr:hover { background: var(--gold-bg); }
+  tbody td { padding: 14px 18px; color: var(--text2); vertical-align: top; line-height: 1.6; }
+  tbody td strong { color: var(--accent); font-weight: 900; }
+  .td-tag {
+    display: inline-block;
+    background: var(--blue-bg);
+    color: var(--blue);
+    border: 1px solid var(--blue-bdr);
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  /* ── UNIV CARDS ── */
+  .univ-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .univ-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-top: 3px solid var(--blue);
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .univ-card .school { font-weight: 900; font-size: 17px; color: var(--accent); margin-bottom: 4px; }
+  .univ-card .dept { font-size: 13px; color: var(--blue); font-weight: 700; margin-bottom: 12px; }
+  .univ-card .detail { font-size: 14px; color: var(--text2); line-height: 1.75; }
+  .univ-card .detail strong { color: var(--accent); font-weight: 900; }
+  .univ-card .src-univ { font-size: 11px; color: var(--source); margin-top: 10px; display: block; }
+
+  /* ── STRENGTH ── */
+  .strength-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+  }
+  .strength-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 22px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .strength-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-bdr), transparent);
+  }
+  .strength-card .num {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 52px;
+    color: rgba(212,160,0,0.12);
+    line-height: 1;
+    margin-bottom: -14px;
+  }
+  .strength-card h3 { font-size: 17px; color: var(--accent); font-weight: 900; margin-bottom: 10px; }
+  .strength-card p { font-size: 15px; color: var(--text2); line-height: 1.7; }
+  .strength-card strong { color: var(--blue); font-weight: 900; }
+  .strength-card .src-str { font-size: 11px; color: var(--source); margin-top: 10px; display: block; }
+
+  /* ── AI BOXES ── */
+  .ai-box {
+    background: var(--blue-bg);
+    border: 1.5px solid var(--blue-bdr);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .ai-box h3 { color: var(--blue); font-size: 18px; margin-bottom: 12px; font-weight: 900; }
+  .ai-box p { color: var(--text2); font-size: 15px; line-height: 1.8; }
+  .ai-box strong { color: var(--accent); font-weight: 900; }
+  .ai-box .src-ai { font-size: 11px; color: var(--source); margin-top: 12px; display: block; }
+  .ai-box-green {
+    background: var(--green-bg);
+    border: 1.5px solid var(--green-bdr);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .ai-box-green h3 { color: var(--green); font-size: 18px; margin-bottom: 12px; font-weight: 900; }
+  .ai-box-green p { color: var(--text2); font-size: 15px; line-height: 1.8; }
+  .ai-box-green strong { color: var(--green); font-weight: 900; }
+  .ai-box-green .src-ai { font-size: 11px; color: var(--source); margin-top: 12px; display: block; }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .checklist-title { font-size: 16px; color: var(--accent); font-weight: 900; margin-bottom: 16px; }
+  .check-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-num {
+    flex: 0 0 30px;
+    height: 30px;
+    background: var(--accent);
+    color: #FFD700;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .check-item .text { flex: 1; }
+  .check-item .text strong { color: var(--accent); font-size: 15px; display: block; margin-bottom: 5px; font-weight: 900; }
+  .check-item .text span { color: var(--text2); font-size: 14px; line-height: 1.7; display: block; }
+  .check-item .text .src { font-size: 11px; color: var(--source); margin-top: 5px; display: block; }
+
+  /* ── INFO / WARN BOXES ── */
+  .info-box {
+    background: var(--blue-bg);
+    border: 1.5px solid var(--blue-bdr);
+    border-left: 5px solid var(--blue);
+    border-radius: 8px;
+    padding: 18px 22px;
+    font-size: 15px;
+    color: var(--text2);
+    margin-top: 18px;
+    line-height: 1.75;
+  }
+  .info-box strong { color: var(--blue); font-weight: 900; }
+  .warn-box {
+    background: var(--orange-bg);
+    border: 1.5px solid var(--orange-bdr);
+    border-left: 5px solid #F57C00;
+    border-radius: 8px;
+    padding: 18px 22px;
+    font-size: 15px;
+    color: var(--text2);
+    margin-top: 18px;
+    line-height: 1.75;
+  }
+  .warn-box strong { color: var(--orange); font-weight: 900; }
+  .gold-box {
+    background: var(--gold-bg);
+    border: 1.5px solid var(--gold-bdr);
+    border-left: 5px solid var(--gold);
+    border-radius: 8px;
+    padding: 18px 22px;
+    font-size: 15px;
+    color: var(--text2);
+    margin-top: 18px;
+    line-height: 1.75;
+  }
+  .gold-box strong { color: var(--gold); font-weight: 900; }
+
+  /* ── REALITY GRID ── */
+  .reality-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .reality-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 16px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .reality-card .fig {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .reality-card .unit { font-size: 14px; color: var(--gold); font-weight: 900; margin-top: 4px; }
+  .reality-card .desc { font-size: 12px; color: var(--source); margin-top: 6px; }
+
+  /* ── INFRA ── */
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+  }
+  .infra-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .infra-icon { font-size: 30px; flex: 0 0 38px; }
+  .infra-card h4 { font-size: 15px; color: var(--accent); font-weight: 900; margin-bottom: 6px; }
+  .infra-card p { font-size: 13px; color: var(--text3); line-height: 1.6; }
+  .infra-card .src-infra { font-size: 11px; color: var(--source); margin-top: 6px; display: block; }
+
+  /* ── FOOTNOTE / SUP ── */
+  .footnote { font-size: 12px; color: var(--source); margin-top: 10px; line-height: 1.7; }
+  sup {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    vertical-align: super;
+    line-height: 0;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+  /* ── SOURCES SECTION ── */
+  .sources-section {
+    background: var(--bg2);
+    border-top: 2px solid var(--border);
+    padding: 40px 24px;
+  }
+  .sources-title { font-size: 15px; color: var(--text2); font-weight: 900; margin-bottom: 16px; }
+  .sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 8px;
+  }
+  .source-item {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.6;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .source-item .snum { color: var(--gold); font-weight: 900; margin-right: 6px; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: linear-gradient(150deg, #1A1A2E 0%, #0F3460 100%);
+    text-align: center;
+    padding: 72px 24px;
+  }
+  .cta-section h2 {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(26px, 4vw, 42px);
+    color: #FFFFFF;
+    margin-bottom: 14px;
+  }
+  .cta-section p { color: #B0C4DE; font-size: 16px; margin-bottom: 36px; line-height: 1.8; }
+  .cta-targets { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
+  .cta-target {
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #E0E0E0;
+    font-weight: 500;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: #FFD700;
+    color: #111111;
+    font-size: 19px;
+    font-weight: 900;
+    padding: 20px 52px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.4);
+  }
+  .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(255,215,0,0.5); }
+
+  /* ── FAQ ── */
+  .faq-box {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .faq-title { font-size: 16px; color: var(--accent); font-weight: 900; margin-bottom: 16px; }
+  .faq-item { padding: 13px 0; border-bottom: 1px solid var(--border); }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q { font-size: 15px; color: var(--accent); font-weight: 900; margin-bottom: 6px; }
+  .faq-a { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .faq-a .src { font-size: 11px; color: var(--source); margin-top: 4px; display: block; }
+
+  /* ── PIE LEGEND ── */
+  .pie-legend { display: flex; flex-direction: column; gap: 9px; }
+  .pie-legend-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text2); font-weight: 500; }
+  .pie-legend-item .dot { width: 13px; height: 13px; border-radius: 50%; flex: 0 0 13px; }
+  .pie-legend-item strong { color: var(--accent); font-weight: 900; margin-left: auto; }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════╗
+     ║           HERO              ║
+     ╚══════════════════════════════╝ -->
+<section class="hero">
+  <div class="hero-badge">SBS아카데미 컴퓨터 강남 · 웹툰 실무 마스터 과정</div>
+  <h1>2조 원 시대, K-웹툰<br>당신의 <em>데뷔 공식</em>이 여기 있습니다</h1>
+  <p class="hero-sub">현직 프로 작가의 실전 노하우 × 스튜디오급 장비 환경 × 개인 맞춤 커리큘럼<br>데이터와 사실이 증명하는 산업, 전략이 있는 준비</p>
+  <div class="hero-stats">
+    <div class="hero-stat">2조 2,856억 원<span>2024 국내 웹툰 매출 · 출처: 콘진원 [1]</span></div>
+    <div class="hero-stat">205.7만 명<span>강사 누적 열람자 · 출처: 카카오페이지 [4]</span></div>
+    <div class="hero-stat">전 좌석 신디크 24"<span>스튜디오급 실습 장비 완비</span></div>
+    <div class="hero-stat">무단계 맞춤 과정<span>3개월 ~ 12개월 이상 선택</span></div>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="tab-nav">
+  <a href="#market">📊 시장 현황</a>
+  <a href="#trend">🔥 산업 트렌드</a>
+  <a href="#job">💼 진출 전략</a>
+  <a href="#curriculum">📚 커리큘럼</a>
+  <a href="#instructor">👤 강사 소개</a>
+  <a href="#univ">🎓 입시 전략</a>
+  <a href="#ai">🤖 AI와 웹툰</a>
+  <a href="#strength">⭐ 과정 강점</a>
+  <a href="#reality">📋 현실과 준비</a>
+</nav>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     01 · 시장 현황          ║
+     ╚══════════════════════════════╝ -->
+<section class="section reveal" id="market">
+  <div class="wrap">
+    <div class="section-label">SECTION 01 — MARKET</div>
+    <h2 class="section-title">왜 지금 웹툰인가?<br><em>숫자가 증명하는 K-웹툰</em></h2>
+    <p class="section-desc">국내 웹툰 산업은 2년 연속 2조 원을 돌파하며 디지털 콘텐츠 시장의 핵심 축으로 자리잡았습니다. 단순한 유행이 아닌 구조적·장기적 성장입니다.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="big">2.28조</div>
+        <div class="label">2024년 국내 웹툰 산업 매출액<br>전년 대비 <strong>+4.4% 성장</strong>, 2년 연속 2조 원 돌파</div>
+        <div class="source">출처 [1]: 콘진원 2025 웹툰산업실태조사 국가승인통계 (이슈인팩트, 2026.03.31)</div>
+      </div>
+      <div class="stat-card">
+        <div class="big">+25%</div>
+        <div class="label">2024년 플랫폼 업체 매출 전년 대비 증가율<br>플랫폼 매출 약 <strong>1조 4,094억 원</strong> (전체의 64.4%)</div>
+        <div class="source">출처 [3]: 연합뉴스 "K-웹툰 매출액 첫 2조원 돌파" (2025.01.02)</div>
+      </div>
+      <div class="stat-card">
+        <div class="big">147조+</div>
+        <div class="label">글로벌 웹툰 시장 2033년 장기 예측<br>연평균 성장률(CAGR) <strong>6.72%~24.3%</strong></div>
+        <div class="source">출처 [8]: Fortune Business Insights 웹툰 시장 규모·성장 보고서</div>
+      </div>
+      <div class="stat-card">
+        <div class="big">4조+</div>
+        <div class="label">네이버·카카오 창작자 수익 배분<br>최근 <strong>5년간 누적</strong> 지급액</div>
+        <div class="source">출처 [5]: 조선비즈 "웹툰도 디즈니급 IP로 육성… 네이버웹툰 700억 투자" (2026.03.17)</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- 막대차트 -->
+      <div class="chart-wrap">
+        <div class="chart-title">📈 국내 웹툰 산업 매출액 추이 (단위: 억 원)</div>
+        <svg viewBox="0 0 380 230" width="100%" style="overflow:visible">
+          <line x1="48" y1="10" x2="48" y2="185" stroke="#DDD" stroke-width="1.5"/>
+          <line x1="48" y1="185" x2="375" y2="185" stroke="#DDD" stroke-width="1.5"/>
+          <line x1="48" y1="137" x2="375" y2="137" stroke="#EEE" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="48" y1="89" x2="375" y2="89" stroke="#EEE" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="48" y1="40" x2="375" y2="40" stroke="#EEE" stroke-width="1" stroke-dasharray="4,4"/>
+          <text x="42" y="188" text-anchor="end" font-size="10" fill="#AAA">0</text>
+          <text x="42" y="140" text-anchor="end" font-size="10" fill="#AAA">1만</text>
+          <text x="42" y="92" text-anchor="end" font-size="10" fill="#AAA">2만</text>
+          <text x="42" y="43" text-anchor="end" font-size="10" fill="#AAA">2.5만</text>
+          <!-- 2017: 3799 → h=25.8 -->
+          <rect x="62" y="159" width="38" height="26" fill="#CCCCCC" rx="4"/>
+          <text x="81" y="153" text-anchor="middle" font-size="10" fill="#888">3,799</text>
+          <text x="81" y="203" text-anchor="middle" font-size="11" fill="#666">2017</text>
+          <!-- 2020: 10538 → h=71.7 -->
+          <rect x="124" y="113" width="38" height="72" fill="#AAAAAA" rx="4"/>
+          <text x="143" y="108" text-anchor="middle" font-size="10" fill="#666">10,538</text>
+          <text x="143" y="203" text-anchor="middle" font-size="11" fill="#666">2020</text>
+          <!-- 2021: 15000 → h=102 -->
+          <rect x="186" y="83" width="38" height="102" fill="#888888" rx="4"/>
+          <text x="205" y="78" text-anchor="middle" font-size="10" fill="#666">15,000</text>
+          <text x="205" y="203" text-anchor="middle" font-size="11" fill="#666">2021</text>
+          <!-- 2023: 21890 → h=148.8 -->
+          <rect x="248" y="36" width="38" height="149" fill="#C8A000" rx="4"/>
+          <text x="267" y="30" text-anchor="middle" font-size="10" fill="#888">21,890</text>
+          <text x="267" y="203" text-anchor="middle" font-size="11" fill="#555">2023</text>
+          <!-- 2024: 22856 → h=155 -->
+          <rect x="310" y="30" width="38" height="155" fill="#D4A000" rx="4"/>
+          <text x="329" y="24" text-anchor="middle" font-size="11" fill="#D4A000" font-weight="bold">22,856</text>
+          <text x="329" y="203" text-anchor="middle" font-size="11" fill="#D4A000" font-weight="bold">2024</text>
+          <path d="M81 155 C143 108 205 78 248 30" stroke="#DDD" stroke-width="1.5" fill="none" stroke-dasharray="5,5"/>
+        </svg>
+        <p class="footnote">출처 [1] 콘진원 2025 웹툰산업실태조사 / [2] 연합뉴스 2025.12.29</p>
+      </div>
+
+      <!-- 파이차트 -->
+      <div class="chart-wrap">
+        <div class="chart-title">🌍 2024 웹툰 해외 수출 권역별 비중</div>
+        <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;">
+          <svg viewBox="0 0 180 180" width="160" height="160">
+            <!-- 일본 49.5% -->
+            <circle r="70" cx="90" cy="90" fill="transparent" stroke="#D4A000" stroke-width="140" stroke-dasharray="218 440" transform="rotate(-90 90 90)"/>
+            <!-- 중화권 41.2% -->
+            <circle r="70" cx="90" cy="90" fill="transparent" stroke="#1565C0" stroke-width="140" stroke-dasharray="181 440" transform="rotate(89 90 90)"/>
+            <!-- 유럽 4.2% -->
+            <circle r="70" cx="90" cy="90" fill="transparent" stroke="#2E7D32" stroke-width="140" stroke-dasharray="18 440" transform="rotate(247 90 90)"/>
+            <!-- 북미 2.3% -->
+            <circle r="70" cx="90" cy="90" fill="transparent" stroke="#C62828" stroke-width="140" stroke-dasharray="10 440" transform="rotate(263 90 90)"/>
+            <!-- 기타 -->
+            <circle r="70" cx="90" cy="90" fill="transparent" stroke="#AAAAAA" stroke-width="140" stroke-dasharray="13 440" transform="rotate(271 90 90)"/>
+            <circle r="36" cx="90" cy="90" fill="#FFFFFF"/>
+            <text x="90" y="87" text-anchor="middle" font-size="11" fill="#1A1A2E" font-weight="bold">K-웹툰</text>
+            <text x="90" y="101" text-anchor="middle" font-size="10" fill="#888">수출</text>
+          </svg>
+          <div class="pie-legend">
+            <div class="pie-legend-item"><span class="dot" style="background:#D4A000"></span>일본<strong>49.5%</strong></div>
+            <div class="pie-legend-item"><span class="dot" style="background:#1565C0"></span>중화권<strong>41.2%</strong></div>
+            <div class="pie-legend-item"><span class="dot" style="background:#2E7D32"></span>유럽<strong>4.2%</strong></div>
+            <div class="pie-legend-item"><span class="dot" style="background:#C62828"></span>북미<strong>2.3%</strong></div>
+            <div class="pie-legend-item"><span class="dot" style="background:#AAAAAA"></span>기타<strong>2.8%</strong></div>
+          </div>
+        </div>
+        <p class="footnote">출처 [1] 콘진원 2025 웹툰산업실태조사 / [2] 연합뉴스 2025.12.29<br>* 온라인 전송권 중심 수출. 일본 픽코마·라인망가 플랫폼 압도적 1위</p>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>💡 왜 지금인가?</strong> 플랫폼 매출의 전년 대비 <strong>+25% 급증</strong>과 원천 IP 기반 드라마·영화·게임 등 OSMU(One Source Multi Use) 활성화로, 웹툰은 단순 만화를 넘어 <strong>엔터테인먼트 산업 전체의 기초 자산</strong>으로 격상되었습니다. 네이버웹툰은 2024년 하반기 미국 나스닥 상장을 목표로 기업 가치 약 5조 원을 평가받고 있습니다.<br>
+      <span style="font-size:11px;color:var(--source);margin-top:6px;display:block">출처 [4] 네이버 웹툰 산업 보고서 / [6] 네이버 웹툰 산업 분석</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     02 · 산업 트렌드        ║
+     ╚══════════════════════════════╝ -->
+<section class="section alt reveal" id="trend">
+  <div class="wrap">
+    <div class="section-label">SECTION 02 — TREND</div>
+    <h2 class="section-title">지금 업계가<br><em>가장 원하는 것</em>은?</h2>
+    <p class="section-desc">시장의 변화 방향을 알아야 준비 방향이 보입니다. 2024~2026년 웹툰 산업의 4대 핵심 트렌드입니다.</p>
+
+    <div class="trend-grid">
+      <div class="trend-card">
+        <div class="icon">📚</div>
+        <h3>노블코믹스 IP의 폭발적 수요</h3>
+        <p>성공한 웹소설을 웹툰으로 시각화하고, 다시 넷플릭스·드라마로 영상화하는 <strong>미디어 믹스 밸류체인</strong>이 시장 대세입니다. 방대한 텍스트 서사를 스크롤 포맷에 맞게 속도감 있게 재구성하는 <strong>'각색 및 연출 전문가'</strong> 수요가 업계에서 급증 중입니다.</p>
+        <span class="src">출처 [6]: 네이버 웹툰 산업 분석 보고서</span>
+        <span class="tag">각색가 · 콘티 전문가 수요 급증</span>
+      </div>
+      <div class="trend-card">
+        <div class="icon">🤖</div>
+        <h3>생성형 AI 실무 도입 가속화</h3>
+        <p>2024년 기준 전체 웹툰 사업체의 <strong>48.0%</strong>가 이미 생성형 AI를 실무에 도입했으며, 특히 기획·제작 파트 활용률이 <strong>56.1%</strong>로 가장 높습니다. AI를 보조 도구로 영리하게 활용해 반복 작업 시간을 단축하는 능력이 핵심 실무 역량이 되었습니다.</p>
+        <span class="src">출처 [1]: 콘진원 2025 웹툰산업실태조사</span>
+        <span class="tag">AI 보조 + 인간 창의성의 융합 능력</span>
+      </div>
+      <div class="trend-card">
+        <div class="icon">🏭</div>
+        <h3>스튜디오 분업화 시스템 정착</h3>
+        <p>주간 연재 마감 압박과 고퀄리티 요구로 <strong>기획→각색→선화→채색→배경→후보정</strong>으로 나뉘는 전문 분업 시스템이 산업 표준으로 자리잡았습니다. '1인 작가'가 아닌 <strong>특정 파트 전문가</strong>로도 스튜디오 취업이 가능한 시대입니다.</p>
+        <span class="src">출처 [6]: 네이버 웹툰 산업 분석 보고서</span>
+        <span class="tag">부분 특화로도 스튜디오 취업 가능</span>
+      </div>
+      <div class="trend-card">
+        <div class="icon">🌏</div>
+        <h3>700억 투자 · 글로벌 메가 IP 경쟁</h3>
+        <p>네이버웹툰은 2026년에만 <strong>700억 원 이상</strong>의 신규 투자를 통해 제2의 '나 혼자만 레벨업' 같은 글로벌 대작 발굴에 나섰습니다. 플랫폼들이 창작자에게 5년간 <strong>4조 원+</strong> 수익을 배분하며 상생 생태계를 구축 중입니다.</p>
+        <span class="src">출처 [5]: 조선비즈 2026.03.17</span>
+        <span class="tag">신인 작가에게도 기회의 문이 열린다</span>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      ⚠️ <strong>트렌드가 말하는 것:</strong> 단순히 "그림을 잘 그리는" 것만으론 부족합니다. 스크롤 연출, 각색 능력, 디지털 툴 숙련도, AI 활용 능력이 복합적으로 요구되는 시대입니다. 이 모든 것을 <strong>실제 연재 현장의 프로세스 그대로</strong> 배우는 것이 가장 빠른 길입니다.
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     03 · 진출 전략          ║
+     ╚══════════════════════════════╝ -->
+<section class="section reveal" id="job">
+  <div class="wrap">
+    <div class="section-label">SECTION 03 — CAREER PATH</div>
+    <h2 class="section-title">취업·데뷔·입시<br><em>3가지 진출 경로 전략</em></h2>
+    <p class="section-desc">웹툰으로 먹고사는 방법은 '메인 작가'만이 아닙니다. 2024년 이후 산업의 직무 다변화로 진입 경로가 훨씬 넓어졌습니다.</p>
+
+    <div class="job-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>직무</th>
+            <th>주요 역할</th>
+            <th>필수 역량</th>
+            <th>취업 루트</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>메인 작가</strong></td>
+            <td>작품 총괄 기획 및 메인 작화, 스토리텔링 전체 지휘</td>
+            <td><span class="td-tag">스토리텔링</span><span class="td-tag">연출력</span><span class="td-tag">작화 일관성</span></td>
+            <td>플랫폼 공모전, 에이전시 투고, 픽코마 글로벌 런칭</td>
+          </tr>
+          <tr>
+            <td><strong>전문 어시스턴트</strong></td>
+            <td>선화·채색·배경 등 분업 공정 중 특정 파트 집중 수행</td>
+            <td><span class="td-tag">CSP 숙련도</span><span class="td-tag">스케치업</span><span class="td-tag">마감 엄수</span></td>
+            <td>스튜디오 채용, 작가 개인 고용 <span style="font-size:11px;color:var(--source)">[출처 14]</span></td>
+          </tr>
+          <tr>
+            <td><strong>각색 작가</strong></td>
+            <td>웹소설을 웹툰 콘티로 변환, 노블코믹스 전문 공정</td>
+            <td><span class="td-tag">각색 능력</span><span class="td-tag">웹툰 연출 이해</span></td>
+            <td>노블코믹스 전문 제작사 채용 <span style="font-size:11px;color:var(--source)">[출처 10]</span></td>
+          </tr>
+          <tr>
+            <td><strong>웹툰 PD</strong></td>
+            <td>작가 관리, 연재 전략 수립, IP 비즈니스 총괄</td>
+            <td><span class="td-tag">트렌드 분석</span><span class="td-tag">기획력</span><span class="td-tag">작가 소통</span></td>
+            <td>에이전시·플랫폼 정규직 채용 <span style="font-size:11px;color:var(--source)">[출처 25]</span>, 서울시 양성과정 <span style="font-size:11px;color:var(--source)">[출처 22]</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">출처 [10] 강사 '멱멱(옹기)' 실무 강의 자료 / [14] Reddit r/webtoons 어시스턴트 포트폴리오 가이드 / [22] 서울시·한국웹툰산업협회 웹툰 PD 양성과정 (2025) / [25] 메가스터디 웹툰PD 취업 과정 (링커리어)</p>
+
+    <div class="divider"></div>
+
+    <h3 style="font-size:18px;color:var(--accent);font-weight:900;margin-bottom:18px;">✅ 스튜디오·에이전시가 원하는 포트폴리오 체크리스트</h3>
+    <div class="checklist">
+      <div class="check-item">
+        <div class="check-num">1</div>
+        <div class="text">
+          <strong>장르적 전문성 표출</strong>
+          <span>가장 자신 있는 장르를 명확히 정하고 그 장르에 맞는 색감·연출을 집중적으로 보여주어야 합니다. 판타지 액션이라면 이펙트와 동세를, 로맨스 판타지라면 의상 묘사와 보석 후보정 능력을 강조하세요.</span>
+          <span class="src">출처 [10]: 강사 '멱멱(옹기)' 실무 강의 자료</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-num">2</div>
+        <div class="text">
+          <strong>완성된 세로 스크롤 원고 1~2화 분량</strong>
+          <span>단편 일러스트 중심이 아닌, 실제 연재 포맷의 세로 스크롤 원고가 필수입니다. 컷 간격·말풍선 가독성·시선 유도 등 웹툰 문법 이해도가 핵심 평가 항목입니다.</span>
+          <span class="src">출처 [12]: HART 에이치아카데미 웹툰작가 데뷔 과정</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-num">3</div>
+        <div class="text">
+          <strong>디지털 툴 효율성 증명</strong>
+          <span>스케치업 배경 활용 사례, 클립스튜디오 오토 액션 등 작업 시간 단축 능력을 구체적으로 보여줘야 합니다. 채용 담당자가 가장 중시하는 것은 "주간 마감을 버틸 수 있는 작업 효율성"입니다.</span>
+          <span class="src">출처 [15]: CLIP Studio Paint 공식 가이드</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-num">4</div>
+        <div class="text">
+          <strong>캐릭터 시트 — 창작자로서의 작가성 어필</strong>
+          <span>독자적인 세계관이나 매력적인 캐릭터 디자인이 담긴 캐릭터 시트를 통해 "기능인을 넘어 창작자"로서의 잠재력을 증명해야 합니다.</span>
+          <span class="src">출처 [10]: 강사 '멱멱(옹기)' 실무 강의 자료</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:20px;">
+      <strong>📌 핵심 포인트:</strong> 채용 담당자가 포트폴리오에서 보는 두 가지 질문은 <strong>"우리 스튜디오 화풍에 적응할 수 있는가?"</strong>와 <strong>"주간 연재를 견딜 수 있는 효율적 작업 방식을 갖추었는가?"</strong>입니다. 실무형 완성 원고 위주로 구성하되, 기초 스케치보다 최종 원고에 가까운 작업물을 담으세요.<br>
+      <span style="font-size:11px;color:var(--source);margin-top:4px;display:block">출처 [14]: Reddit r/webtoons 스튜디오 어시스턴트 포트폴리오 가이드</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     04 · 커리큘럼           ║
+     ╚══════════════════════════════╝ -->
+<section class="section alt reveal" id="curriculum">
+  <div class="wrap">
+    <div class="section-label">SECTION 04 — CURRICULUM</div>
+    <h2 class="section-title">스튜디오 즉시 투입<br><em>5단계 실무 제작 공정</em></h2>
+    <p class="section-desc">강남점의 커리큘럼은 실제 웹툰 스튜디오의 분업 공정을 그대로 재현합니다. 각 단계를 숙달할수록 취업과 데뷔 경쟁력이 높아집니다.</p>
+
+    <div class="process-flow">
+      <div class="process-step">
+        <div class="num">1</div>
+        <h4>기획 및 콘티</h4>
+        <p>칸 나누기, 화면 구성, 시선 유도, 속도감 연출. 노블코믹스 각색 노하우. 협업 시 상세 연출 가이드 작성.</p>
+        <div class="badge">연출력 핵심</div>
+        <span class="src-step">출처 [10]</span>
+      </div>
+      <div class="process-step">
+        <div class="num">2</div>
+        <h4>캐릭터 시트</h4>
+        <p>전신 1종 + 두상 3종 이상. 캐릭터 성격·매력 극대화. 헤어·특수 의상 디자인 설계.</p>
+        <div class="badge">설정 일관성</div>
+        <span class="src-step">출처 [10]</span>
+      </div>
+      <div class="process-step">
+        <div class="num">3</div>
+        <h4>선화 작화</h4>
+        <p>콘티 기반 정교한 펜선 스케치. 인물과 상호작용하는 소품까지 포함 작화. 선화 전담 작가 수요 증가.</p>
+        <div class="badge">퀄리티 결정</div>
+        <span class="src-step">출처 [10]</span>
+      </div>
+      <div class="process-step">
+        <div class="num">4</div>
+        <h4>밑색 및 명암</h4>
+        <p>빛의 방향 계산, 고유색 지정, 1도 명암 원패스 처리. 의상 패턴 작업. 마감 효율 극대화.</p>
+        <div class="badge">효율 핵심</div>
+        <span class="src-step">출처 [10]</span>
+      </div>
+      <div class="process-step">
+        <div class="num">5</div>
+        <h4>후보정 · 식자</h4>
+        <p>전투 이펙트, 효과선, 대기 분위기, 시간대 보정. 최종 말풍선 식자. 판타지·액션 장르 상업 가치 결정.</p>
+        <div class="badge">★ 상업 가치 결정</div>
+        <span class="src-step">출처 [10]</span>
+      </div>
+    </div>
+    <p class="footnote" style="margin-top:14px;">출처 [10]: 강사 '멱멱(옹기)' 실무 가이드 기반 강남점 교육 과정</p>
+
+    <div class="divider"></div>
+
+    <h3 style="font-size:18px;color:var(--accent);font-weight:900;margin-bottom:20px;">🖥️ 실무와 동일한 하드웨어·소프트웨어 인프라</h3>
+    <div class="infra-grid">
+      <div class="infra-card">
+        <div class="infra-icon">🖊️</div>
+        <div>
+          <h4>클립스튜디오 페인트 EX</h4>
+          <p>전 세계 웹툰 작가 선호 1위. 벡터 레이어 선화 수정, 3D 모델 복잡한 구도 구현, 풍부한 소재 라이브러리 활용.</p>
+          <span class="src-infra">출처 [15]: CLIP Studio Paint 공식 가이드</span>
+        </div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-icon">🖥️</div>
+        <div>
+          <h4>신디크(Cintiq) 24인치 — 전 좌석</h4>
+          <p>전문가용 액정 태블릿. 넓은 화면과 정밀 필압으로 고해상도 원고 작업. 입문부터 프로 환경에 익숙해지도록 전 좌석 지원.</p>
+          <span class="src-infra">출처: SBS아카데미 강남점 교육 환경</span>
+        </div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-icon">🏗️</div>
+        <div>
+          <h4>스케치업(SketchUp)</h4>
+          <p>3D 배경 제작 표준. 한 번 구축한 모델을 다양한 앵글로 신속 추출, 주간 마감 배경 작업 시간 획기적 단축.</p>
+          <span class="src-infra">출처 [16]: 서울산업진흥원 사이다특강</span>
+        </div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-icon">📅</div>
+        <div>
+          <h4>무단계 · 유연한 수강 기간</h4>
+          <p>최단 3개월 ~ 6개월 ~ 12개월 이상까지 학생 목표·역량에 따라 자유 설정. 초보자~숙련자 모두 가능.</p>
+          <span class="src-infra">출처: SBS아카데미 강남점 교육 과정</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     05 · 강사 소개          ║
+     ╚══════════════════════════════╝ -->
+<section class="section reveal" id="instructor">
+  <div class="wrap">
+    <div class="section-label">SECTION 05 — INSTRUCTOR</div>
+    <h2 class="section-title">이론이 아닌<br><em>살아있는 현장의 노하우</em></h2>
+    <p class="section-desc">강의만 하는 강사가 아닌, 지금도 연재하는 현직 작가에게 배웁니다. 수백만 독자가 검증한 실력입니다.</p>
+
+    <div class="instructor-box">
+      <div class="instructor-avatar">
+        <svg viewBox="0 0 100 100" width="120" height="120">
+          <circle cx="50" cy="50" r="48" fill="#F0F0F0" stroke="#D4A000" stroke-width="3"/>
+          <circle cx="50" cy="35" r="16" fill="#CCCCCC"/>
+          <path d="M18 88 C18 62, 82 62, 82 88" fill="#CCCCCC"/>
+        </svg>
+        <div class="name">멱멱 작가</div>
+        <div class="sub">각색 필명: 옹기</div>
+      </div>
+      <div class="instructor-info">
+        <h3>대표 연재작 (카카오페이지 독점)</h3>
+        <div class="work-title">〈이 세계의 유일한 힐러가 되었습니다〉</div>
+        <div class="badge-row">
+          <span class="badge">👀 누적 열람자 205.7만 명</span>
+          <span class="badge">⭐ 카카오페이지 평점 9.6점</span>
+          <span class="badge">🏆 총 71화 완결</span>
+          <span class="badge">🌍 일본 픽코마 글로벌 런칭</span>
+        </div>
+        <ul>
+          <li>작화(멱멱 필명) + 각색(옹기 필명) <strong>메인 공정 100% 직접 수행</strong> — 분업 전 과정 이해도 최고</li>
+          <li>2023년 12월 ~ 2025년 2월 <strong>주간 연재 71화 완결</strong> — 실제 마감 압박 속 퀄리티 유지 노하우</li>
+          <li>판타지 액션 장르 특유의 <strong>역동적 화면 연출 및 고난도 전투 이펙트</strong> 기법 전수</li>
+          <li>플랫폼·에이전시 소통 방식, 독자 반응 반영한 연출 변주 등 <strong>업계 생태계 실전 경험</strong></li>
+          <li>일본 픽코마 런칭 경험으로 <strong>글로벌 시장 기준 퀄리티</strong>를 직접 체험한 강사</li>
+        </ul>
+        <p class="src-inst">출처 [4]: 카카오페이지 〈이 세계의 유일한 힐러가 되었습니다〉 공식 페이지 / [10]: 강사 실무 강의 자료</p>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:22px;">
+      <strong>📌 현직 작가 직강의 진짜 의미:</strong> 주간 연재 마감 압박 속에서 원고 퀄리티를 유지하는 워크플로우, 플랫폼·에이전시와의 실제 소통 방식, 독자 반응에 따른 연출 변주 등 <strong>교과서에 없는 살아있는 노하우</strong>가 커리큘럼에 녹아있습니다. 이론 강사와 현직 작가 강사의 차이는 바로 여기서 갈립니다.
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     06 · 입시 전략          ║
+     ╚══════════════════════════════╝ -->
+<section class="section alt reveal" id="univ">
+  <div class="wrap">
+    <div class="section-label">SECTION 06 — ENTRANCE EXAM</div>
+    <h2 class="section-title">웹툰·만화 학과<br><em>대학 입시 전략</em></h2>
+    <p class="section-desc">주요 대학 웹툰 관련 학과는 실기 전형 비중이 압도적으로 높습니다. 일찍 실무 제작 능력을 키우는 것이 최선의 입시 전략입니다.</p>
+
+    <div class="univ-cards">
+      <div class="univ-card">
+        <div class="school">세종대학교</div>
+        <div class="dept">만화애니메이션텍</div>
+        <div class="detail">
+          실기: <strong>상황표현 또는 칸만화 중 택 1</strong><br>
+          창의적 연출 능력 집중 평가<br>
+          1단계 실기 100%, 2단계 실기 20~60% + 교과
+        </div>
+        <span class="src-univ">출처 [28] 세종대 2026학년도 수시 요강 / [29] 입학전형 시행계획</span>
+      </div>
+      <div class="univ-card">
+        <div class="school">청강문화산업대</div>
+        <div class="dept">만화콘텐츠스쿨</div>
+        <div class="detail">
+          실기: <strong>2페이지 칸만화, 웹툰, 포트폴리오</strong> 등 다양<br>
+          실무 능력 강조, 포트폴리오 비중 압도적<br>
+          30페이지 내외 완결 원고 + 캐릭터 설정 위주
+        </div>
+        <span class="src-univ">출처 [30]: 청강문화산업대 입시 안내</span>
+      </div>
+      <div class="univ-card">
+        <div class="school">부산관광대학교</div>
+        <div class="dept">웹툰애니메이션학부</div>
+        <div class="detail">
+          실기: <strong>상황표현, 칸만화</strong><br>
+          특정 주제(예: 도깨비) 부여 후 주제 해석 능력 평가<br>
+          실기고사 중심 선발
+        </div>
+        <span class="src-univ">출처 [31]: 백석문화대 2026 수시 실기 주제 발표</span>
+      </div>
+      <div class="univ-card">
+        <div class="school">건국대학교</div>
+        <div class="dept">영상영화학과</div>
+        <div class="detail">
+          실기: <strong>기초디자인 또는 상황표현</strong><br>
+          실기 위주 전형 운영<br>
+          인물 표정·동세·배경 조화로 '이야기'가 느껴지는 그림 평가
+        </div>
+        <span class="src-univ">출처: 각 대학 입학처 공고</span>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">🎯 입시 실기 핵심 준비 포인트</div>
+      <div class="check-item">
+        <div class="check-num">✓</div>
+        <div class="text">
+          <strong>상황표현 — "이야기가 느껴지는" 그림</strong>
+          <span>단순히 잘 그린 그림보다 인물 표정·동세와 배경의 조화로 긴장감·감정이 전달되는 그림이 높은 점수를 받습니다. 발전 가능성과 서사 구성 능력이 핵심 평가 기준입니다.</span>
+          <span class="src">출처 [31]: 2026 수시 실기고사 주제 발표 자료</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-num">✓</div>
+        <div class="text">
+          <strong>칸만화 — 연출력과 마지막 칸의 여운</strong>
+          <span>기승전결이 뚜렷한 구조와 칸 크기 변화를 통한 연출, 효과적인 대사 배치, 마지막 칸의 반전이나 여운이 핵심 평가 요소입니다.</span>
+          <span class="src">출처 [10]: 강사 '멱멱(옹기)' 실무 강의 자료</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-num">✓</div>
+        <div class="text">
+          <strong>포트폴리오 — 가장 자신 있는 완결 원고 위주로</strong>
+          <span>그림체 변화 과정보다 최고 완성도의 원고와 캐릭터 설정 자료 위주로 구성하고, 이 학과에 지원하는 창작 의도가 명확히 드러나야 합니다.</span>
+          <span class="src">출처 [30]: 청강문화산업대 입시 안내</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-box">
+      <strong>💡 SBS아카데미 강남점의 입시 지원:</strong> 실제 연재 포맷의 원고 제작 훈련이 기본 과정에 포함되어 있어, <strong>입시용 포트폴리오와 실무 포트폴리오를 동시에 완성</strong>할 수 있습니다. 개인 맞춤 로드맵으로 입시 타임라인에 맞춘 집중 준비가 가능합니다.
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     07 · AI와 웹툰          ║
+     ╚══════════════════════════════╝ -->
+<section class="section reveal" id="ai">
+  <div class="wrap">
+    <div class="section-label">SECTION 07 — AI & FUTURE</div>
+    <h2 class="section-title">AI는 위협인가,<br><em>기회인가?</em></h2>
+    <p class="section-desc">2024~2025년 웹툰 산업의 가장 뜨거운 화두. 사실과 데이터에 기반한 분석을 공유합니다.</p>
+
+    <div class="two-col">
+      <div class="ai-box">
+        <h3>📊 현재 AI 도입 현황</h3>
+        <p>2024년 기준 전체 웹툰 사업체의 <strong>48.0%</strong>가 생성형 AI를 실무 도입. 기획·제작 파트 활용률 <strong>56.1%</strong>로 가장 활발. 스케치 자동화, 채색 지원, 배경 Text-to-Image 생성 등에서 실질적인 생산성 향상을 가져오고 있습니다.<br><br>
+        한국웹툰산업협회는 AI 학습 데이터 투명성 확보와 창작자 권익 보호를 위한 정책 대응을 강화하고 있습니다.</p>
+        <span class="src-ai">출처 [1]: 콘진원 2025 웹툰산업실태조사 / [32]: 만화규장각 "2025년으로 향하는 웹툰 산업의 흐름" (2024.12)</span>
+      </div>
+      <div class="ai-box-green">
+        <h3>🧠 결론: AI는 도구, 감성은 인간</h3>
+        <p>생성형 AI는 <strong>반복적 노동을 줄여주는 효율적인 파트너</strong>로 진화 중입니다. 창작자의 메인 영역(스토리·연출·감성)을 대체하기보다 보조하는 역할에 그칩니다.<br><br>
+        지망생에게 필요한 것은 AI를 두려워하는 것이 아니라, <strong>"내 워크플로우에 어떻게 녹여 생산성을 높일 것인가"를 고민하는 실무 감각</strong>입니다. 기술은 도구일 뿐, 독자의 마음을 움직이는 것은 인간 작가의 감성과 의도입니다.</p>
+        <span class="src-ai">출처 [32]: 만화규장각 "2025년으로 향하는 웹툰 산업의 흐름" (2024.12)</span>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>🏫 강남점의 AI 대응:</strong> 최신 기술 트렌드를 교육 과정에 반영하여 학생들이 변화하는 산업 환경에 유연하게 대처할 수 있는 능력을 키워줍니다. AI 도구 활용법과 함께 AI가 대체할 수 없는 핵심 창작 역량(연출·감성·서사 구성)을 동시에 강화하는 교육 방향을 유지합니다.
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     08 · 과정 강점          ║
+     ╚══════════════════════════════╝ -->
+<section class="section alt reveal" id="strength">
+  <div class="wrap">
+    <div class="section-label">SECTION 08 — WHY US</div>
+    <h2 class="section-title">SBS아카데미 강남점<br><em>4가지 차별화 강점</em></h2>
+    <p class="section-desc">비슷해 보이는 웹툰 학원, 어디서 배우느냐가 결과를 바꿉니다. 사실에 기반한 4가지 차별 포인트입니다.</p>
+
+    <div class="strength-grid">
+      <div class="strength-card">
+        <div class="num">01</div>
+        <h3>검증된 현직 강사진</h3>
+        <p>카카오페이지 <strong>71화 완결 + 일본 픽코마 수출 실적</strong>을 보유한 '멱멱' 작가 직강. 누적 열람자 205.7만 명·평점 9.6이 검증한 현역 프로의 살아있는 노하우를 직접 전수받습니다.</p>
+        <span class="src-str">출처 [4]: 카카오페이지 공식 페이지 / [10]: 강사 실무 자료</span>
+      </div>
+      <div class="strength-card">
+        <div class="num">02</div>
+        <h3>무단계 1:1 맞춤 로드맵</h3>
+        <p>기계적 단계 구분 없이 학생 개인의 실력·목표에 맞춘 교육. <strong>3개월~12개월 이상</strong>까지 수강 기간을 자유롭게 설정. 입시생부터 에이전시 투고 예비 작가까지 각자의 타임라인을 존중합니다.</p>
+        <span class="src-str">출처: SBS아카데미 강남점 교육 과정 안내</span>
+      </div>
+      <div class="strength-card">
+        <div class="num">03</div>
+        <h3>스튜디오급 실습 인프라</h3>
+        <p><strong>전 좌석 신디크(Cintiq) 24인치 + 클립스튜디오 EX</strong> 완비. 실제 웹툰 스튜디오와 동일한 환경에서 처음부터 작업하여, 취업 후 현장 적응 기간을 최소화합니다.</p>
+        <span class="src-str">출처: SBS아카데미 강남점 실습 환경</span>
+      </div>
+      <div class="strength-card">
+        <div class="num">04</div>
+        <h3>에이전시·플랫폼 취업 연계</h3>
+        <p>주요 에이전시 및 플랫폼과의 네트워크를 통해 <strong>우수 수강생에게 데뷔·취업 기회를 우선 제공</strong>. 포트폴리오 완성에서 실제 업계 연결까지 원스톱 지원합니다.</p>
+        <span class="src-str">출처 [27]: SBS아카데미 웹툰 취업 완성반 안내 (링커리어)</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 style="font-size:18px;color:var(--accent);font-weight:900;margin-bottom:18px;">🏫 교육 목표별 지원 방향</h3>
+    <div class="job-table-wrap">
+      <table>
+        <thead>
+          <tr><th>목표</th><th>강남점 지원 방식</th><th>예상 성과</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>스튜디오/에이전시 취업</strong></td>
+            <td>분업 공정 기반 커리큘럼 → 특정 파트 집중 숙달 → 실무형 포트폴리오 완성</td>
+            <td>어시스턴트·각색가·PD 등 다양한 루트 진출</td>
+          </tr>
+          <tr>
+            <td><strong>플랫폼 데뷔</strong></td>
+            <td>실제 1화 분량 원고 반복 제작 → 연출력·완성도 강화 → 공모전·투고 전략 수립</td>
+            <td>카카오·네이버 공모전 출품 수준 포트폴리오</td>
+          </tr>
+          <tr>
+            <td><strong>대학 입시</strong></td>
+            <td>상황표현·칸만화 연출 집중 → 30페이지 내외 포트폴리오 완성 → 학교별 맞춤 준비</td>
+            <td>세종대·청강대 등 주요 대학 실기 대비</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     09 · 현실과 준비        ║
+     ╚══════════════════════════════╝ -->
+<section class="section reveal" id="reality">
+  <div class="wrap">
+    <div class="section-label">SECTION 09 — REALITY CHECK</div>
+    <h2 class="section-title">화려한 산업,<br><em>냉정한 현실과 준비</em></h2>
+    <p class="section-desc">웹툰 산업은 매력적이지만 철저한 자기 관리와 실무 능력이 뒷받침되어야 하는 프로의 세계입니다. 사실에 기반해 안내합니다.</p>
+
+    <div class="reality-grid">
+      <div class="reality-card">
+        <div class="fig">5.9일</div>
+        <div class="unit">주당 창작 일수</div>
+        <div class="desc">작가 평균 근무 패턴<br><span style="font-size:10px">출처 [3]</span></div>
+      </div>
+      <div class="reality-card">
+        <div class="fig">10.1시간</div>
+        <div class="unit">일평균 노동시간</div>
+        <div class="desc">고강도 창작 환경<br><span style="font-size:10px">출처 [3]</span></div>
+      </div>
+      <div class="reality-card">
+        <div class="fig">3,800만</div>
+        <div class="unit">연 수익 중위값(원)</div>
+        <div class="desc">신인~상위 격차 큼<br><span style="font-size:10px">출처 [3]</span></div>
+      </div>
+      <div class="reality-card">
+        <div class="fig">700억+</div>
+        <div class="unit">2026년 플랫폼 신규 투자</div>
+        <div class="desc">신인 발굴 의지 지속<br><span style="font-size:10px">출처 [5]</span></div>
+      </div>
+    </div>
+    <p class="footnote">출처 [3]: 연합뉴스 "K-웹툰 매출액 첫 2조원 돌파" (2025.01.02) / [5]: 조선비즈 2026.03.17</p>
+
+    <div class="warn-box">
+      ⚠️ <strong>솔직한 안내:</strong> 연 수익 중위값 약 3,800만 원이 보여주듯, 상위 작가와 신인 작가 간의 소득 격차는 매우 큽니다. 그러나 스튜디오 분업화로 <strong>어시스턴트·각색가·PD 등 안정적 취업 루트</strong>가 다양해졌으며, 플랫폼의 지속적 투자와 글로벌 확장은 신인에게도 기회를 열고 있습니다. 중요한 것은 <strong>"지속 가능한 창작 시스템"을 만드는 법을 배우는 것</strong>입니다.<br>
+      <span style="font-size:11px;color:var(--source);margin-top:4px;display:block">출처 [3]: 연합뉴스 2025.01.02</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <div class="checklist">
+        <div class="checklist-title">✅ 수강 전 이런 분께 추천합니다</div>
+        <div class="check-item">
+          <div class="check-num">✓</div>
+          <div class="text"><strong>스튜디오·에이전시 취업 준비생</strong><span>어시스턴트, 각색가, PD 등 웹툰 산업 내 전문 직무 진출을 목표로 하는 분</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">✓</div>
+          <div class="text"><strong>플랫폼 정식 연재 지망생</strong><span>카카오페이지·네이버웹툰 등 메이저 플랫폼 데뷔를 꿈꾸는 분</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">✓</div>
+          <div class="text"><strong>웹툰·만화 학과 입시 준비생</strong><span>세종대·청강대 등 주요 대학 실기 전형 대비가 필요한 분</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">✓</div>
+          <div class="text"><strong>그림 기초가 있는 직장인·성인</strong><span>프리랜서 수익 창출이나 개인 창작 활동을 병행하고 싶은 분</span></div>
+        </div>
+      </div>
+
+      <div class="faq-box">
+        <div class="faq-title">📋 수강 전 자주 묻는 질문</div>
+        <div class="faq-item">
+          <div class="faq-q">Q. 기초 실력이 없어도 가능한가요?</div>
+          <div class="faq-a">무단계 과정으로 운영하므로 개인 수준에서 출발합니다. 그림에 대한 기본적인 관심과 디지털 작업에 대한 의지가 있으면 충분합니다.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Q. 수강 기간은 얼마나 되나요?</div>
+          <div class="faq-a">최단 3개월부터 12개월 이상까지 목표에 따라 자유롭게 설정. 입시생은 수험 일정에, 취업 준비생은 포트폴리오 완성도에 맞춰 조정합니다.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Q. 수업은 어떤 방식으로 진행되나요?</div>
+          <div class="faq-a">도제식 실무 교육으로, 강사가 개인별 과제를 부여하고 1:1로 피드백합니다. 기계적인 단계 구분 없이 개인 속도에 맞춰 진행됩니다.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Q. 취업·데뷔 연계도 되나요?</div>
+          <div class="faq-a">우수 수강생에게는 주요 에이전시 및 플랫폼 연계를 통해 데뷔·취업 기회를 우선 제공합니다. 포트폴리오 완성 후 투고 전략까지 함께 지원합니다.
+            <span class="src">출처 [27]: SBS아카데미 웹툰 취업 완성반 안내 (링커리어)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗
+     ║     참고 출처 전체 목록     ║
+     ╚══════════════════════════════╝ -->
+<div class="sources-section">
+  <div class="wrap">
+    <div class="sources-title">📎 참고 출처 전체 목록</div>
+    <div class="sources-grid">
+      <div class="source-item"><span class="snum">[1]</span> 콘진원 2025 웹툰산업실태조사 국가승인통계 보고서 (이슈인팩트, 2026.03.31)</div>
+      <div class="source-item"><span class="snum">[2]</span> 연합뉴스 "K-웹툰 매출액 2년 연속 2조원 돌파…전년 대비 4.4% 성장" (2025.12.29)</div>
+      <div class="source-item"><span class="snum">[3]</span> 연합뉴스 "K-웹툰 매출액 첫 2조원 돌파…6년 연속 성장세" (2025.01.02)</div>
+      <div class="source-item"><span class="snum">[4]</span> 카카오페이지 〈이 세계의 유일한 힐러가 되었습니다〉 공식 페이지 (page.kakao.com)</div>
+      <div class="source-item"><span class="snum">[5]</span> 조선비즈 "웹툰도 디즈니급 IP로 육성… 네이버웹툰 올해 700억 투자 승부수" (2026.03.17)</div>
+      <div class="source-item"><span class="snum">[6]</span> 네이버 웹툰 산업 분석 보고서 (ssl.pstatic.net)</div>
+      <div class="source-item"><span class="snum">[8]</span> Fortune Business Insights, 웹툰 시장 규모·점유율·성장 및 동향 [2026-2034]</div>
+      <div class="source-item"><span class="snum">[10]</span> 강사 '멱멱(각색 필명: 옹기)' 실무 강의 자료 (웹툰제작_모의강의용.pdf)</div>
+      <div class="source-item"><span class="snum">[12]</span> HART 에이치아카데미, 웹툰작가 데뷔 과정 (hart.co.kr)</div>
+      <div class="source-item"><span class="snum">[14]</span> Reddit r/webtoons "웹툰/만화 어시스턴트 취업 포트폴리오 가이드" (2024)</div>
+      <div class="source-item"><span class="snum">[15]</span> CLIP Studio Paint 공식 가이드 "수작업풍 웹툰 제작" (clipstudio.net)</div>
+      <div class="source-item"><span class="snum">[16]</span> 서울산업진흥원 사이다특강 5회 "웹툰 배경 후보정 스케치업·클립스튜디오 활용" (seoulit.or.kr)</div>
+      <div class="source-item"><span class="snum">[22]</span> 서울시·한국웹툰산업협회 2025년 서울 매력일자리 사업 「웹툰 PD 전문 인력 양성 과정」 최종 합격자 공고</div>
+      <div class="source-item"><span class="snum">[25]</span> 메가스터디 "웹툰PD/웹소설 작가 취업!! 2025년 최고의 유망직종 웹툰PD" (링커리어)</div>
+      <div class="source-item"><span class="snum">[27]</span> SBS아카데미 "[웹툰 취업 완성반] 작가부터 PD까지, 실무 중심 6개월 집중 과정" (링커리어)</div>
+      <div class="source-item"><span class="snum">[28]</span> 세종대학교 2026학년도 수시모집 요강 (ipsi.sejong.ac.kr)</div>
+      <div class="source-item"><span class="snum">[29]</span> 세종대학교 2026학년도 대학입학전형 시행계획(안) (ipsi.sejong.ac.kr)</div>
+      <div class="source-item"><span class="snum">[30]</span> 청강문화산업대 만화콘텐츠스쿨 입시 안내 (ipsi.ck.ac.kr)</div>
+      <div class="source-item"><span class="snum">[31]</span> 백석문화대학교 "[2026_수시1차] 웹툰애니메이션학부 실기고사 주제 발표" (ipsi.bscu.ac.kr)</div>
+      <div class="source-item"><span class="snum">[32]</span> 만화규장각 웹진 "2025년으로 향하는 웹툰 산업의 흐름" (kmas.or.kr, 2024.12)</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>당신의 이야기가<br>글로벌 IP가 되도록</h2>
+  <p>데이터가 증명하는 산업 × 현직 작가의 노하우 × 스튜디오급 장비<br>지금 첫 상담을 시작하세요</p>
+  <div class="cta-targets">
+    <div class="cta-target">🎯 스튜디오·에이전시 취업 준비생</div>
+    <div class="cta-target">🎓 웹툰·만화 학과 입시생</div>
+    <div class="cta-target">🚀 메이저 플랫폼 연재 지망생</div>
+    <div class="cta-target">✍️ 프리랜서·창작 활동 희망자</div>
+  </div>
+  <a href="#" class="cta-btn">현직 프로 작가의 1:1 포트폴리오 컨설팅 예약</a>
+</section>
+
+<script>
+  const obs = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.07 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
